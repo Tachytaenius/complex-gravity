@@ -4,6 +4,7 @@ local vec2 = types.vec2
 
 local gravityStrength = complex(10, 0)
 local imaginaryColourScale = 150
+local dtMultiplier = complex(1, 0)
 
 local particles
 
@@ -51,13 +52,13 @@ function love.update(dt)
 			local distanceFactor = math.min(1, 1 / distance.re)
 			local force = gravityStrength * particleA.mass * particleB.mass * distanceFactor
 
-			particleA.velocity = particleA.velocity + direction * force * dt / particleA.mass
-			particleB.velocity = particleB.velocity - direction * force * dt / particleB.mass
+			particleA.velocity = particleA.velocity + direction * force * dt * dtMultiplier / particleA.mass
+			particleB.velocity = particleB.velocity - direction * force * dt * dtMultiplier / particleB.mass
 		end
 	end
 	for i = 1, #particles do
 		local particle = particles[i]
-		particle.position = particle.position + particle.velocity * dt
+		particle.position = particle.position + particle.velocity * dt * dtMultiplier
 	end
 end
 
