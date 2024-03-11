@@ -92,7 +92,7 @@ ffi.metatype("complex", {
 	end,
 	__div = function(a, b)
 		if type(a) == "number" then
-			newComplexRaw(
+			return newComplexRaw(
 				a * b.re / (b.re ^ 2 + b.im ^ 2),
 				-a * b.im / (b.re ^ 2 + b.im ^ 2)
 			)
