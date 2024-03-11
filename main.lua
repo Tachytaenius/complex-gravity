@@ -21,12 +21,12 @@ function love.load()
 		particles[i] = {
 			position = vec2(
 				complex(
-					love.math.random() * 200 - 50,
-					love.math.random() * 20 - 5
+					love.math.random() * 200 - 100,
+					love.math.random() * 20 - 10
 				),
 				complex(
-					love.math.random() * 200 - 50,
-					love.math.random() * 20 - 5
+					love.math.random() * 200 - 100,
+					love.math.random() * 20 - 10
 				)
 			),
 			velocity = vec2(
