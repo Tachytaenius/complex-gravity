@@ -6,7 +6,11 @@ local tau = math.pi * 2
 
 local gravityStrength = complex(10, 0)
 local imaginaryColourScale = 150
-local dtMultiplier = complex(1, 0)
+
+local dtMultiplierLinearTime = complex(1, 0)
+local circularTimeRealSecondsForFullCycle = 10
+local circularTimeSpeed = 1
+local useCircularTime = false
 
 local timeReal
 local particles
@@ -44,12 +48,10 @@ function love.load()
 end
 
 function love.update(dt)
-	local secondsForFullCycle = 5
-	local timeSpeed = 1
-	local dtMultiplier = complex(
-		timeSpeed * math.cos(tau * timeReal / secondsForFullCycle),
-		timeSpeed * math.sin(tau * timeReal / secondsForFullCycle)
-	)
+	local dtMultiplier = useCircularTime and complex(
+		circularTimeSpeed * math.cos(tau * timeReal / circularTimeRealSecondsForFullCycle),
+		circularTimeSpeed * math.sin(tau * timeReal / circularTimeRealSecondsForFullCycle)
+	) or dtMultiplierLinearTime
 
 	for i = 1, #particles - 1 do
 		local particleA = particles[i]
