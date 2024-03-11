@@ -2,10 +2,13 @@ local types = require("types")
 local complex = types.complex
 local vec2 = types.vec2
 
+local tau = math.pi * 2
+
 local gravityStrength = complex(10, 0)
 local imaginaryColourScale = 150
 local dtMultiplier = complex(1, 0)
 
+local timeReal
 local particles
 
 function love.load()
@@ -36,9 +39,18 @@ function love.load()
 		}
 		particles[i].radius = complex.abs(particles[i].mass).re / 2
 	end
+
+	timeReal = 0
 end
 
 function love.update(dt)
+	local secondsForFullCycle = 5
+	local timeSpeed = 1
+	local dtMultiplier = complex(
+		timeSpeed * math.cos(tau * timeReal / secondsForFullCycle),
+		timeSpeed * math.sin(tau * timeReal / secondsForFullCycle)
+	)
+
 	for i = 1, #particles - 1 do
 		local particleA = particles[i]
 		for j = i + 1, #particles do
@@ -60,6 +72,8 @@ function love.update(dt)
 		local particle = particles[i]
 		particle.position = particle.position + particle.velocity * dt * dtMultiplier
 	end
+
+	timeReal = timeReal + dt
 end
 
 function love.draw()
