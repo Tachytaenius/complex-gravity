@@ -13,6 +13,7 @@ local circularTimeSpeed = 1
 local useCircularTime = false
 
 local timeReal
+local time
 local particles
 
 function love.load()
@@ -45,6 +46,34 @@ function love.load()
 	end
 
 	timeReal = 0
+	time = complex()
+end
+
+local function getMeanPosition()
+	local positionSum = vec2()
+	for i = 1, #particles do
+		local particle = particles[i]
+		positionSum = positionSum + particle.position
+	end
+	return positionSum / #particles
+end
+
+local function getMeanVelocity()
+	local velocitySum = vec2()
+	for i = 1, #particles do
+		local particle = particles[i]
+		velocitySum = velocitySum + particle.velocity
+	end
+	return velocitySum / #particles
+end
+
+local function getTotalMomentum()
+	local momentumSum = vec2()
+	for i = 1, #particles do
+		local particle = particles[i]
+		momentumSum = momentumSum + particle.velocity * particle.mass
+	end
+	return momentumSum
 end
 
 function love.update(dt)
@@ -76,6 +105,7 @@ function love.update(dt)
 	end
 
 	timeReal = timeReal + dt
+	time = time + dt * dtMultiplier
 end
 
 function love.draw()
@@ -98,6 +128,15 @@ function love.draw()
 		-- love.graphics.circle("fill", particle.position.x.re, particle.position.y.im, particle.radius)
 	end
 	love.graphics.setColor(1, 1, 1)
+
+	love.graphics.origin()
+	love.graphics.print(
+		"Time: " .. tostring(time) .. "\n" ..
+		"Real time: " .. timeReal .. "\n" ..
+		"Total momentum: " .. tostring(getTotalMomentum()) .. "\n" ..
+		"Total momentum magnitude: " .. tostring(#getTotalMomentum()) .. "\n" ..
+		"Please edit source to experiment"
+	)
 end
 
 -- sqrt demonstration
