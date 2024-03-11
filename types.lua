@@ -108,10 +108,7 @@ ffi.metatype("complex", {
 			)
 		end
 	end,
-	__len = complexAbs,
-	__tostring = function(z)
-		return string.format("%f + $fi", z.re, z.im)
-	end
+	__len = complexAbs
 })
 
 local complex = setmetatable({
